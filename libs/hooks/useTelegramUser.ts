@@ -27,10 +27,22 @@ export function useTelegramUser(): TelegramUser | null {
   const [user, setUser] = useState<TelegramUser | null>(null);
 
   useEffect(() => {
-    if (typeof window !== "undefined" && window.Telegram?.WebApp) {
-      window.Telegram.WebApp.ready();
-      setUser(window.Telegram.WebApp.initDataUnsafe?.user ?? null);
+    if (typeof window === "undefined") return;
+    
+    console.log("Telegram WebApp:", window.Telegram?.WebApp);
+    
+    const tg = window.Telegram?.WebApp;
+    if (!tg) {
+      console.warn("window.Telegram.WebApp is missing. Is the script loaded?");
+      return;
     }
+    
+    tg.ready();
+    const unsafe = tg.initDataUnsafe;
+    console.log("initDataUnsafe:", unsafe);
+    console.log("initDataUnsafe.user:", unsafe?.user);
+    
+    setUser(unsafe?.user ?? null);
   }, []);
 
   return user;

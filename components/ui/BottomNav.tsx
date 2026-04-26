@@ -22,7 +22,7 @@ export default function BottomNav({ activeTab, onTabChange, onAddPress }: Bottom
     <>
       {/* Gradient blur backdrop – deeper and wider for liquid glass feel */}
       <div
-        className="absolute bottom-0 left-0 w-full h-28 pointer-events-none"
+        className="fixed bottom-0 left-0 right-0 z-50 w-full h-28 pointer-events-none"
         style={{
           background:
             "linear-gradient(to top, rgba(26,26,26,0.95) 0%, rgba(26,26,26,0.6) 40%, rgba(26,26,26,0) 100%)",

@@ -27,6 +27,9 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+
+        {/* Must be loaded before any scripts that use Telegram */}
+        <script src="https://telegram.org/js/telegram-web-app.js" />
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
