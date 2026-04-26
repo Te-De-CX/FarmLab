@@ -5,6 +5,7 @@ import { FarmProfile } from "@/libs/types";
 import { LOGO_IMAGE } from "@/libs/data/data";
 import Image from "next/image";
 import { HiOutlineArrowsUpDown } from "react-icons/hi2";
+import { useTelegramUserId } from "@/libs/hooks/useTelegramUserId";
 
 interface ProfileHeaderProps {
   profile: FarmProfile;
@@ -12,10 +13,13 @@ interface ProfileHeaderProps {
 }
 
 export default function ProfileHeader({ profile, onSortPress }: ProfileHeaderProps) {
-  const shortAddress =
-    profile.walletAddress.length > 12
-      ? `${profile.walletAddress.slice(0, 10)}…`
-      : profile.walletAddress;
+    const telegramUserId = useTelegramUserId();
+//   const shortAddress =
+    // profile.walletAddress.length > 12
+    //   ? `${profile.walletAddress.slice(0, 10)}…`
+    //   : profile.walletAddress;
+
+    const effectiveWalletAddress = telegramUserId ?? profile.walletAddress;
 
   return (
     <div className="flex items-center justify-between w-full">
@@ -36,7 +40,7 @@ export default function ProfileHeader({ profile, onSortPress }: ProfileHeaderPro
             className="text-white text-sm leading-tight"
             style={{ fontFamily: "Poppins, sans-serif", fontWeight: 500 }}
           >
-            {shortAddress}
+            {effectiveWalletAddress}
           </p>
           <div className="flex items-center gap-1.5 text-[#b0b0b0]">
             {/* Tiny leaf icon */}

@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { useTelegramUser } from "@/libs/hooks/useTelegramUser";
 import {
   HiOutlinePencil,
   HiOutlineBell,
@@ -21,7 +22,7 @@ import {
 import Modal from "./Modal";
 
 const MOCK_PROFILE = {
-  name: "Jane Smith",
+//   name: "Jane Smith",
   tier: "Gold Farmer",
   avatar: "/avatar-placeholder.png",
   completedCycles: 247,
@@ -31,11 +32,12 @@ const MOCK_PROFILE = {
 };
 
 // ---------- EDIT PROFILE ----------
-function EditProfileForm({ onClose }: { onClose: () => void }) {
-  const [name, setName] = useState(MOCK_PROFILE.name);
+function EditProfileForm({ onClose, initialName }: { onClose: () => void; initialName: string }) {
+    const [name, setName] = useState(initialName);
   const [email, setEmail] = useState(MOCK_PROFILE.email);
   const [phone, setPhone] = useState(MOCK_PROFILE.phone);
   const [avatar, setAvatar] = useState(MOCK_PROFILE.avatar);
+
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -330,14 +332,20 @@ export default function ProfilePage() {
   }>({ type: null });
 
   const closeModal = () => setModal({ type: null });
+    const telegramUser = useTelegramUser();
+
+  // Build the display name from Telegram (fallback to mock)
+  const displayName = telegramUser
+    ? `${telegramUser.first_name ?? ""} ${telegramUser.last_name ?? ""}`.trim()
+    : "Jane Smith";  
 
   const settingsItems = [
     {
-      id: "edit",
-      icon: <HiOutlinePencil size={22} color="white" />,
-      label: "Edit Profile",
-      modalTitle: "Edit Profile",
-      component: <EditProfileForm onClose={closeModal} />,
+        id: "edit",
+        icon: <HiOutlinePencil size={22} color="white" />,
+        label: "Edit Profile",
+        modalTitle: "Edit Profile",
+        component: <EditProfileForm onClose={closeModal} initialName={displayName} />,
     },
     {
       id: "notifications",
@@ -384,7 +392,7 @@ export default function ProfilePage() {
             </div>
             <div>
               <p className="text-white text-xl" style={{ fontFamily: "PT Serif, serif" }}>
-                {MOCK_PROFILE.name}
+                {displayName}
               </p>
               <p className="text-[#cdcdcd] text-sm mt-1" style={{ fontFamily: "Poppins, sans-serif" }}>
                 {MOCK_PROFILE.tier}
