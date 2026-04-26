@@ -22,7 +22,7 @@ export default function BottomNav({ activeTab, onTabChange, onAddPress }: Bottom
     <>
       {/* Gradient blur backdrop – deeper and wider for liquid glass feel */}
       <div
-        className="fixed bottom-0 left-0 right-0 z-50 w-full h-28 pointer-events-none"
+        className="absolute bottom-0 left-0 w-full h-28 pointer-events-none"
         style={{
           background:
             "linear-gradient(to top, rgba(26,26,26,0.95) 0%, rgba(26,26,26,0.6) 40%, rgba(26,26,26,0) 100%)",
@@ -32,7 +32,7 @@ export default function BottomNav({ activeTab, onTabChange, onAddPress }: Bottom
       />
 
       {/* Nav bar row */}
-      <div className="absolute bottom-[24px] left-[20px] right-[20px] flex items-center justify-between">
+      <div className="fixed z-50 bottom-6 left-5 right-5 flex items-center justify-between">
         {/* Main tabs container – liquid glass pill */}
         <div
           className="relative flex gap-1 p-1 rounded-full border border-white/20 overflow-hidden"
